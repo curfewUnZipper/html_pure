@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      body {
+        margin: 0px;
+      }
+      div {
+        padding: 10px;
+      }
+    </style>
+    <title>qWizard</title>
+  </head>
+  <body>
+    <!-- ----------------------------------------Header------------------------------------------- -->
+    <div
+      class="bg-warning"
+      style="display: flex; border-bottom: solid black 2.5px"
+    >
+      <h1>qWizard</h1>
+      <img src="wizIcon.svg" width="55rem" height="55rem" />
+    </div>
+
+    <!-- --------------------------------Questions--------------------------------- -->
+    <div class="container-fluid row">
+      <div class="col-6" style="font-size: x-large">
+        <span id="question">Q. Question apears here!</span>
+        <form name="answers">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="opt1"
+            />
+            <label class="form-check-label" for="opt1"> Option A </label>
+          </div>
+
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="opt2"
+            />
+            <label class="form-check-label" for="opt2"> Option B </label>
+          </div>
+
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="opt3"
+            />
+            <label class="form-check-label" for="opt3"> Option C </label>
+          </div>
+
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="opt4"
+            />
+            <label class="form-check-label" for="opt4"> Option D </label>
+          </div>
+          <button type="reset" class="mt-3 btn btn-warning">Clear</button>
+        </form>
+
+        <div class="row">
+          <div class="col justify-content-end d-inline-flex">
+            <button class="btn btn-info" onclick="runQuestions('backward')">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                class="bi bi-arrow-left-square"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div
+            id="evaluate"
+            class="col d-inline-flex justify-content-center bg-secondary"
+            style="cursor: crosshair"
+          >
+            <p class="m-0 text-light p-0">Evaluate</p>
+          </div>
+
+          <div class="col d-inline-flex">
+            <button class="btn btn-info" onclick="runQuestions('forward')">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                class="bi bi-arrow-right-square"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <!-- ----------------------------------------Point Allot---------------------------------------- -->
+        <form class="m-3" name="teams">
+          Allot
+          <input
+            id="scoreToAdd"
+            type="number"
+            style="width: 2em; border-radius: 0.25em; margin-bottom: 0.3em"
+            value="5"
+          />
+          points to Team(s) :
+          <br />
+          <button id="rst-js-btn" type="reset" class="btn btn-warning">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="27"
+              height="27"
+              fill="currentColor"
+              class="bi bi-x"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="btn btn-success"
+            onclick="putRoundScore()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="23"
+              height="23"
+              fill="currentColor"
+              class="bi bi-arrow-right"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
+              />
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- ----------------------------------Score----------------------------- -->
+      <div class="col-6" id="scoreDiv"></div>
+    </div>
+
+    <script>
+      const totalTeams = 5;
+      let roundCounter = 0;
+
+      const questions = [
+        {
+          question:
+            "What is the primary function of a pull-up resistor in an electronic circuit?",
+          a: "To increase the current through a component",
+          b: "To connect an input to a high logic level",
+          c: "To reduce power consumption",
+          d: "To connect an input to a low logic level",
+          correct: "b",
+        },
+
+        {
+          question:
+            "What happens to the input pin voltage when a pull-up resistor is used and no other signal is applied?",
+          a: "The voltage is pulled to a high level",
+          b: "The voltage is pulled to a low level",
+          c: "The voltage oscillates",
+          d: "The voltage is zero",
+          correct: "a",
+        },
+        {
+          question:
+            "What is the primary function of a stabilization capacitor in an electronic circuit?",
+          a: "To store energy for later use",
+          b: "To filter out AC signals from a DC supply",
+          c: "To stabilize voltage and reduce fluctuations",
+          d: "To increase the frequency of the signal",
+          correct: "c",
+        },
+        {
+          question:
+            "What happens to the charge on a stabilization capacitor when the input voltage increases?",
+          a: "The charge decreases",
+          b: "The charge remains the same",
+          c: "The charge increases",
+          d: "The capacitor discharges completely",
+          correct: "c",
+        },
+        {
+          question:
+            "What is chassis grounding typically used for in electronic systems?",
+          a: "To connect signal grounds to a common point",
+          b: "To connect the metallic parts of equipment to a common ground",
+          c: "To isolate analog and digital grounds",
+          d: "To improve power efficiency",
+          correct: "b",
+        },
+        {
+          question:
+            "In an electronic circuit, why is analog grounding important?",
+          a: "To prevent electric shock",
+          b: "To reduce electromagnetic interference (EMI)",
+          c: "To improve digital signal processing",
+          d: "To provide a stable reference voltage for  signals",
+          correct: "d",
+        },
+        {
+          question:
+            "Which type of grounding is most commonly associated with safety regulations and building codes?",
+          a: "Earth grounding",
+          b: "Chassis grounding",
+          c: "Analog grounding",
+          d: "Digital grounding",
+          correct: "a",
+        },
+        {
+          question:
+            "What is a common issue if analog and digital grounds are not properly separated in a mixed-signal circuit?",
+          a: "Increased risk of electric shock",
+          b: "Increased digital noise affecting analog signal quality",
+          c: "Decreased circuit efficiency",
+          d: "Reduced signal amplitude",
+          correct: "b",
+        },
+
+        {
+          question:
+            "Which of the following statements is true about chassis grounding?",
+          a: "It is used to ground the PCB ground plane",
+          b: "It connects the circuit ground to earth ground directly",
+          c: "It is used to connect the metal enclosure of a device to ground",
+          d: "It isolates the circuit ground from the metal parts",
+          correct: "c",
+        },
+
+        {
+          question:
+            " What is the primary function of a bypass capacitor in an electronic circuit?",
+          a: " To store energy for later use",
+          b: "To filter out low-frequency signals",
+          c: "To provide a low impedance path for AC signals",
+          d: "To stabilize the voltage across a power supply",
+          correct: "c",
+        },
+
+        {
+          question:
+            "Where is a bypass capacitor typically placed in a circuit?",
+          a: "In series with the power supply",
+          b: "In parallel with the load or power supply",
+          c: "In series with the load",
+          d: "Between two signal lines",
+          correct: "b",
+        },
+
+        {
+          question:
+            "How does a bypass capacitor help in reducing noise in a power supply?",
+          a: "By blocking high-frequency signals",
+          b: "By increasing the power supply voltage",
+          c: "By providing a path for high-frequency noise to ground",
+          d: "By decreasing the load current",
+          correct: "c",
+        },
+
+        {
+          question:
+            "When designing a circuit with multiple ICs, how should bypass capacitors be distributed?",
+          a: "One large capacitor for the entire circuit",
+          b: "One small capacitor for each IC",
+          c: "One capacitor for every other IC",
+          d: "No capacitors are needed",
+          correct: "b",
+        },
+      ];
+
+      function loadQuestion() {
+        document.getElementById("question").innerHTML =
+          "Q" + (roundCounter + 1) + ". " + questions[roundCounter].question;
+        document.querySelector("label[for=opt1]").innerHTML =
+          questions[roundCounter].a;
+        document.querySelector("label[for=opt2]").innerHTML =
+          questions[roundCounter].b;
+        document.querySelector("label[for=opt3]").innerHTML =
+          questions[roundCounter].c;
+        document.querySelector("label[for=opt4]").innerHTML =
+          questions[roundCounter].d;
+      }
+      loadQuestion();
+
+      function runQuestions(direction) {
+        if (roundCounter != questions.length - 1 && direction == "forward") {
+          roundCounter += 1;
+          loadQuestion();
+        } else if (roundCounter != 0 && direction == "backward") {
+          roundCounter -= 1;
+          loadQuestion();
+        }
+      }
+
+      function evaluate() {
+        if (document.querySelector("[id^=opt]:checked") != null) {
+          let evalFlag =
+            document.querySelector("[id^=opt]:checked").id[3] ==
+            questions[roundCounter].correct.toUpperCase().charCodeAt(0) - 64;
+          if (evalFlag) {
+            document.querySelector("#evaluate").classList = [
+              "col d-inline-flex justify-content-center bg-success",
+            ];
+          } else {
+            document.querySelector("#evaluate").classList = [
+              "col d-inline-flex justify-content-center bg-danger",
+            ];
+          }
+        }
+      }
+      // evaluate()
+      document
+        .querySelector("#evaluate")
+        .addEventListener("mouseover", evaluate);
+      document.querySelector("#evaluate").addEventListener("mouseout", () => {
+        document.querySelector("#evaluate").classList = [
+          "col d-inline-flex justify-content-center bg-secondary",
+        ];
+      });
+
+      //to render the scoreTable
+      function renderBase(qtyTeams) {
+        let scoreBoard = document.createElement("table");
+        scoreBoard.id = "scoreBoard";
+        scoreBoard.classList = ["table table-hover table-bordered"];
+        scoreBoard.style = "text-align: center";
+        let tempHTML = "";
+        let tempHTML2 = "";
+        let tempHTML3 = "";
+        let teamSelector = "";
+        let teamSelectorLabel = "";
+        for (let i = 0; i < qtyTeams; i++) {
+          tempHTML += `<th scope="col">Team ${String.fromCharCode(
+            65 + i
+          )}</th>`;
+          tempHTML2 += `<td ondblclick='editScore(this)' class='score-col-${String.fromCharCode(
+            65 + i
+          )}'>0</td>`;
+          tempHTML3 += `<th class="bg-warning total-score-col-${String.fromCharCode(
+            65 + i
+          )}" scope="col">0</th>`;
+          teamSelector = document.createElement("input");
+          teamSelector.type = "checkbox";
+          teamSelector.classList = ["btn-check"];
+          teamSelector.id = `btn-check-${i + 1}`;
+          teamSelector.autocomplete = "off";
+          teamSelector.value = String.fromCharCode(65 + i);
+
+          teamSelectorLabel = document.createElement("label");
+          teamSelectorLabel.classList = ["btn btn-outline-danger"];
+          teamSelectorLabel.htmlFor = `btn-check-${i + 1}`;
+          teamSelectorLabel.innerHTML = String.fromCharCode(65 + i);
+
+          document
+            .getElementsByName("teams")[0]
+            .insertBefore(teamSelector, document.getElementById("rst-js-btn"));
+          document
+            .getElementsByName("teams")[0]
+            .insertBefore(
+              teamSelectorLabel,
+              document.getElementById("rst-js-btn")
+            );
+        }
+
+        scoreBoard.innerHTML = `
+          <thead class="thead table-dark">
+            <tr>
+              ${tempHTML}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              ${tempHTML2}
+            </tr>
+            <tr id="totalRow">
+              ${tempHTML3}
+            </tr>
+          </tbody>`;
+        document.getElementById("scoreDiv").appendChild(scoreBoard);
+      }
+      renderBase(totalTeams);
+
+      //to update score in total-score-columns
+      function updateTotal() {
+        //select VALUES of td of each col and add to total-cell of that column
+        for (let i = 0; i < totalTeams; i++) {
+          let teamTotalScore = 0;
+          // console.log(document.querySelectorAll(".score-col-"+String.fromCharCode(65 + i)));
+          document
+            .querySelectorAll(".score-col-" + String.fromCharCode(65 + i))
+            .forEach((roundScore) => {
+              teamTotalScore += parseInt(roundScore.innerHTML);
+            });
+          // console.log(teamTotalScore);
+          document.querySelector(
+            ".total-score-col-" + String.fromCharCode(65 + i)
+          ).innerHTML = teamTotalScore;
+        }
+      }
+      // updateTotal();
+
+      //to put score in round-score-cols
+      function putRoundScore() {
+        unEditScore();
+        const roundTeams = document.querySelectorAll("[id^=btn-check]:checked");
+        if (roundTeams.length > 0) {
+          const scoreToAdd = document.querySelector("#scoreToAdd").value;
+
+          if (roundCounter == 0) {
+            roundTeams.forEach((checked) => {
+              // console.log(checked.value.charCodeAt(0))
+              document.querySelector(".score-col-" + checked.value).innerHTML =
+                scoreToAdd;
+              checked.checked = false;
+            });
+          } else {
+            let roundRow = document.createElement("tr");
+            let tempHTML = "";
+            document.querySelectorAll("[id^=btn-check]").forEach((team) => {
+              if (team.checked) {
+                tempHTML += `<td ondblclick='editScore(this)' class='score-col-${team.value}'>${scoreToAdd}</td>`;
+                team.checked = false;
+              } else {
+                tempHTML += `<td ondblclick='editScore(this)' class='score-col-${team.value}'>0</td>`;
+              }
+            });
+            roundRow.innerHTML = tempHTML;
+            document
+              .querySelector("#scoreBoard>tbody")
+              .insertBefore(roundRow, document.getElementById("totalRow"));
+          }
+
+          updateTotal();
+          if (roundCounter != questions.length - 1) {
+            roundCounter += 1;
+            loadQuestion();
+          }
+        }
+      }
+      // putRoundScore();
+
+      function editScore(current) {
+        if (!current.innerHTML.startsWith("<input")) {
+          current.innerHTML = `<input type='number'  style="width: 3em; border-radius: 0.25em; " value=${current.innerHTML}>`;
+        }
+      }
+
+      function unEditScore() {
+        document.querySelectorAll("td>input").forEach((editor) => {
+          editor.parentElement.innerHTML = editor.value;
+        });
+      }
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
